@@ -5741,7 +5741,12 @@ this.styleToAttr = function(doc) {
   styles.forEach(style =>{
     var parsed = parser.parseCSS(style.textContent);
     parsed.forEach(ruleset => {
-      const els = docEl.querySelectorAll(ruleset.selector);
+      let els;
+      try{
+        els = docEl.querySelectorAll(ruleset.selector);
+      }catch (e) {
+        return;
+      }
       els.forEach(el => {
         ruleset.rules.forEach(rule => el.setAttribute(rule.directive, rule.value));
       })
